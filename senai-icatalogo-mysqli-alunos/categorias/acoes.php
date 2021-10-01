@@ -1,5 +1,7 @@
 <?php
 
+session_start();
+
 //Conexão com banco de dados
 require('../database/conexao.php');
 
@@ -8,8 +10,34 @@ require('../database/conexao.php');
     - Execução dos processos da ação solicitada
 */
 
+//função de validação
+function validaCampos()
+{
+    $erros = [];
+
+    if (!isset($_POST["descricao"]) || $_POST["descricao"] == "") {
+        
+        $erros[] = "O campo descrição é de preenchimento obrigatório";
+
+    }
+    return $erros;
+
+}
+
 switch ($_POST["acao"]) {
     case 'inserir':
+
+        //validação
+        $erros = validaCampos();
+
+        if (count($erros) > 0) {
+            
+            $_SESSION["erros"] = $erros;
+
+            header("location: index.php");
+
+            exit;
+        }
 
         $descricao = $_POST["descricao"];
 
@@ -31,6 +59,17 @@ switch ($_POST["acao"]) {
 
         break;
     
+    case 'deletar':
+        $categoriaId= $_POST["categoriaId"];
+
+        $sql = "DELETE FROM tbl_categoria WHERE id = $categoriaId";
+
+        $resultado = mysqli_query($conexao, $sql);
+
+        header("location: index.php");
+
+        break;
+
     default:
         # code...
         break;
