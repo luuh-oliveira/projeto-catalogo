@@ -63,13 +63,23 @@ switch ($_POST["acao"]) {
         $categoriaId= $_POST["categoriaId"];
 
         $sql = "DELETE FROM tbl_categoria WHERE id = $categoriaId";
-
         $resultado = mysqli_query($conexao, $sql);
 
         header("location: index.php");
 
         break;
+    
+    case 'editar':
+        
+        $id = $_POST["id"];
+        $descricao = $_POST["descricao"];
 
+        $sql = "UPDATE tbl_categoria SET descricao = '$descricao' WHERE id = $id";
+        $resultado = mysqli_query($conexao, $sql);
+
+        header("location: index.php");
+
+        break;
     default:
         # code...
         break;

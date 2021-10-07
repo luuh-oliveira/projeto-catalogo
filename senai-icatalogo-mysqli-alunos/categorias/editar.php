@@ -33,6 +33,7 @@ $categoria = mysqli_fetch_array($resultado);
             <main>
                 <form class="form-categoria" method="POST" action="./acoes.php">
                     <input type="hidden" name="acao" value="editar" />
+                    <input type="hidden" name="id" value="<?=$categoria["id"]?>" />
                     <h1 class="span2">Editar Categorias</h1>
                     <ul>
                         <?php

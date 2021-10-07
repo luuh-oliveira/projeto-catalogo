@@ -1,3 +1,17 @@
+<?php
+
+// Conexão com o BD
+require("../../database/conexao.php");
+
+// QUERY SQL
+$sql = "SELECT * FROM tbl_categoria";
+
+// Executar a QUERY SQL na base de dados
+$resultado = mysqli_query($conexao, $sql)
+
+
+?>
+
 <!DOCTYPE html>
 <html lang="pt-br">
 
@@ -70,7 +84,14 @@
             <select id="categoria" name="categoria" required>
               <option value="">SELECIONE</option>
               
-                <option value=""></option>
+               <!-- Listagem de categorias vindas do BD -->
+               <?php
+                  while ($categoria = mysqli_fetch_array($resultado)) {
+               ?>
+               <option value="<?= $categoria['id'] ?>"><?= $categoria["descricao"] ?></option>
+               <?php
+                  }
+               ?>
               
             </select>
 
