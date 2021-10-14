@@ -1,3 +1,18 @@
+<?php
+
+require("../database/conexao.php");
+
+$sql = "SELECT p.*, c.descricao FROM tbl_produto p 
+        INNER JOIN tbl_categoria c ON p.categoria_id = c.id";
+
+$resultado = mysqli_query($conexao, $sql);
+
+//teste de seleção de dados
+// var_dump($resultado); exit;
+
+?>
+
+
 <!DOCTYPE html>
 <html lang="pt-br">
 
@@ -22,59 +37,96 @@
 
             <!-- BOTÕES DE INSERÇÃO DE PRODUTOS E CATEGORIAS -->
             <!-- CASO O USUÁRIO ESTEJA LOGADO EXIBE OS BOTÕES DE CADASTRO -->
-    
-                <header>
-                    <button onclick="javascript:window.location.href ='./novo/'">Novo Produto</button>
-                    <button onclick="javascript:window.location.href ='../categorias/'">Adicionar Categoria</button>
-                </header>
+
+            <header>
+                <button onclick="javascript:window.location.href ='./novo/'">Novo Produto</button>
+                <button onclick="javascript:window.location.href ='../categorias/'">Adicionar Categoria</button>
+            </header>
 
             <main>
 
                 <!-- LISTAGEM DE PRODUTOS (INICIO) -->
 
-                <article class="card-produto">
+                <?php
 
-                       <div class="acoes-produtos">
-                    <img onclick="javascript: window.location = './editar/?id=<?= $produto['id'] ?>'" src="../imgs/edit.svg" />
-                    <img onclick="deletar(<?= $produto['id'] ?>)" src="../imgs/trash.svg" />
-                    </div>
-    
-                <figure>
-                     <img src="" />
-                </figure>
+                while ($produto = mysqli_fetch_array($resultado)) {
 
-                <section>
+                    $valor = $produto["valor"];
+                    $desconto = $produto["desconto"];
 
-                    <span class="preco">
-                        R$ 
-                        <em>% off</em>
-                    </span>
+                    $valorDesconto = 0;
 
-                    <span class="parcelamento">ou em
-                        <em>
-                        x R$ sem juros
-                        </em>
-                    </span>
+                    if ($desconto > 0) {
+                        $valorDesconto = ($desconto / 100) * $valor;
+                    }
 
-                    <span class="descricao"></span>
+                    $qtdParcelas = $valor > 1000 ? 12 : 6;
 
-                    <span class="categoria">
-                        <em></em>
-                     </span>
+                    $valorComDesconto = $valor - $valorDesconto;
+                    // $valor -= $valorDesconto;
 
-                </article>
+                    $valorParcela = $valorComDesconto / $qtdParcelas;
 
-                </section>
+                ?>
 
-                <!-- LISTAGEM DE PRODUTOS (FIM) -->
+                    <article class="card-produto">
 
-                <!-- FORM USADO PARA A EXCLUSÃO DE PRODUTOS -->
-                <form id="formDeletar" method="POST" action="./acoes.php">
-                    <input type="hidden" name="acao" value="deletar" />
-                    <input type="hidden" name="produtoId" id="produtoId" />
-                </form>
+                        <div class="acoes-produtos">
+                            <img onclick="javascript: window.location = './editar/?id=<?= $produto['id'] ?>'" src="../imgs/edit.svg" />
+                            <img onclick="deletar(<?= $produto['id'] ?>)" src="../imgs/trash.svg" />
+                        </div>
 
-            </main>
+                        <figure>
+                            <img src="fotos/<?= $produto["imagem"] ?>" />
+                        </figure>
+
+                        <section>
+
+                            <span class="preco">
+                                R$ <?= number_format($valorComDesconto, 2, ",", ".")  ?>
+                                <?php
+                                    if ($desconto > 0) {
+            
+                                ?>
+                                        <em><?= $desconto ?>% off</em>
+                                <?php
+                                    }
+                                ?>
+                            </span>
+
+                            <span class="parcelamento">ou em
+                                <em>
+                                    <?= $qtdParcelas ?> x R$<?= number_format($valorParcela, 2, ",", ".") ?> sem juros
+                                </em>
+                            </span>
+
+                            <span class="descricao">
+                                <?= $produto[1] ?>
+                            </span>
+
+                            <span class="categoria">
+                                <em>
+                                    <?= $produto["descricao"] ?>
+                                </em>
+                            </span>
+
+                    </article> 
+                <?php
+                }
+                ?>
+
+        </section>
+
+
+        <!-- LISTAGEM DE PRODUTOS (FIM) -->
+
+        <!-- FORM USADO PARA A EXCLUSÃO DE PRODUTOS -->
+        <form id="formDeletar" method="POST" action="./acoes.php">
+            <input type="hidden" name="acao" value="deletar" />
+            <input type="hidden" name="produtoId" id="produtoId" />
+        </form>
+
+        </main>
 
         </section>
 

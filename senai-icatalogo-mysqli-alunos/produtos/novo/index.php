@@ -1,14 +1,22 @@
 <?php
 
-// Conexão com o BD
-require("../../database/conexao.php");
+  /*
+  CONEXÃO COM O BANCO DE DADOS
+  
+  produto/novo
+  ../
+  produto/
+  ../
+  /dabase/conexao.php
 
-// QUERY SQL
-$sql = "SELECT * FROM tbl_categoria";
+  */
+  require('../../database/conexao.php');
 
-// Executar a QUERY SQL na base de dados
-$resultado = mysqli_query($conexao, $sql)
+  /*QUERY SQL*/
+  $sql = "SELECT * FROM tbl_categoria";
 
+  /*EXECUTAR A QUERY SQL NA BASE DE DADOS*/
+  $resultado = mysqli_query($conexao, $sql);
 
 ?>
 
@@ -83,15 +91,16 @@ $resultado = mysqli_query($conexao, $sql)
             <label for="categoria">Categoria</label>
             <select id="categoria" name="categoria" required>
               <option value="">SELECIONE</option>
-              
-               <!-- Listagem de categorias vindas do BD -->
-               <?php
+        
+                <!-- INICIO DA LISTAGEM DE CATEGORIAS VINDAS DO BANCO -->
+                <?php
+                
                   while ($categoria = mysqli_fetch_array($resultado)) {
-               ?>
-               <option value="<?= $categoria['id'] ?>"><?= $categoria["descricao"] ?></option>
-               <?php
-                  }
-               ?>
+   
+                ?>
+                <option value="<?php echo $categoria["id"]?>"><?php echo $categoria["descricao"]?></option>
+                <?php } ?>
+                <!-- FIM DA LISTAGEM DE CATEGORIAS VINDAS DO BANCO -->
               
             </select>
 

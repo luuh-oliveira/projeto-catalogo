@@ -1,10 +1,11 @@
 <?php
 
-/*Parâmetros de conexão mysqli
-1- Host (onde o banco de dados está rodando)
-2- User (usuário do banco)
-3- Password
-4- Database (nome do banco)
+/*
+PAREMETROS DE CONEXÃO MYSQLI
+1 - host -> onde o banco de dados esta rodando 
+2 - user -> usuário do banco de dados
+3 - password -> senha do usuário do banco de dados
+4 - database -> nome do banco de dados
 */
 
 const HOST = 'localhost';
@@ -14,7 +15,7 @@ const DATABASE = 'icatalogo';
 
 $conexao = mysqli_connect(HOST, USER, PASSWORD, DATABASE);
 
-if ($conexao === false) {
+if($conexao === false){
 
     die(mysqli_connect_error());
 
