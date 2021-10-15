@@ -1,3 +1,17 @@
+<?php
+
+require("../../database/conexao.php");
+
+$idProduto = $_GET['id'];
+
+$sql = "SELECT * FROM tbl_produto WHERE id = $idProduto";
+
+$resultado = mysqli_query($conexao, $sql);
+
+$produto = mysqli_fetch_array($resultado);
+
+?>
+
 <!DOCTYPE html>
 <html lang="pt-br">
 
@@ -33,37 +47,37 @@
 
           <div class="input-group span2">
             <label for="descricao">Descrição</label>
-            <input type="text" name="descricao" value="" id="descricao" required>
+            <input type="text" name="descricao" value="<?= $produto['descricao'] ?>" id="descricao" required>
           </div>
 
           <div class="input-group">
             <label for="peso">Peso</label>
-            <input type="text" name="peso" value="" id="peso" required>
+            <input type="text" name="peso" value="<?= $produto['peso'] ?>" id="peso" required>
           </div>
 
           <div class="input-group">
             <label for="quantidade">Quantidade</label>
-            <input type="text" name="quantidade" value="" id="quantidade" required>
+            <input type="text" name="quantidade" value="<?= $produto['quantidade'] ?>" id="quantidade" required>
           </div>
 
           <div class="input-group">
             <label for="cor">Cor</label>
-            <input type="text" name="cor" value="" id="cor" required>
+            <input type="text" name="cor" value="<?= $produto['cor'] ?>" id="cor" required>
           </div>
 
           <div class="input-group">
             <label for="tamanho">Tamanho</label>
-            <input type="text" value="" name="tamanho" id="tamanho">
+            <input type="text" value="<?= $produto['tamanho'] ?>" name="tamanho" id="tamanho">
           </div>
 
           <div class="input-group">
             <label for="valor">Valor</label>
-            <input type="text" name="valor" value="" id="valor" required>
+            <input type="text" name="valor" value="<?= $produto['valor'] ?>" id="valor" required>
           </div>
 
           <div class="input-group">
             <label for="desconto">Desconto</label>
-            <input type="text" name="desconto" value="" id="desconto">
+            <input type="text" name="desconto" value="<?= $produto['desconto'] ?>" id="desconto">
           </div>
 
           <div class="input-group">
