@@ -1,14 +1,17 @@
 <?php
 
+session_start();
+
 require("../../database/conexao.php");
 
 $idProduto = $_GET['id'];
 
-$sql = "SELECT * FROM tbl_produto WHERE id = $idProduto";
-
-$resultado = mysqli_query($conexao, $sql);
-
+$sqlProduto = "SELECT * FROM tbl_produto WHERE id = $idProduto";
+$resultado = mysqli_query($conexao, $sqlProduto);
 $produto = mysqli_fetch_array($resultado);
+
+$sqlCategoria = "SELECT descricao FROM tbl_categoria";
+$resultado = mysqli_query($conexao, $sqlCategoria);
 
 ?>
 
@@ -26,7 +29,7 @@ $produto = mysqli_fetch_array($resultado);
 </head>
 
 <body>
- 
+
   <div class="content">
 
     <section class="produtos-container">
@@ -34,15 +37,15 @@ $produto = mysqli_fetch_array($resultado);
       <main>
 
         <form class="form-produto" method="POST" action="../acoes.php" enctype="multipart/form-data">
-         
+
           <input type="hidden" name="acao" value="editar" />
-          
-          <input type="hidden" name="produtoId" value="" />
-          
+
+          <input type="hidden" name="produtoId" value="<?= $idProduto ?>" />
+
           <h1>Editar Produto</h1>
-          
+
           <ul>
-      
+
           </ul>
 
           <div class="input-group span2">
@@ -52,7 +55,7 @@ $produto = mysqli_fetch_array($resultado);
 
           <div class="input-group">
             <label for="peso">Peso</label>
-            <input type="text" name="peso" value="<?= $produto['peso'] ?>" id="peso" required>
+            <input type="text" name="peso" value="<?= number_format($produto['peso'], 2, ',', '.') ?>" id="peso" required>
           </div>
 
           <div class="input-group">
@@ -72,7 +75,7 @@ $produto = mysqli_fetch_array($resultado);
 
           <div class="input-group">
             <label for="valor">Valor</label>
-            <input type="text" name="valor" value="<?= $produto['valor'] ?>" id="valor" required>
+            <input type="text" name="valor" value="<?= number_format($produto['valor'], 2, ',', '.') ?>" id="valor" required>
           </div>
 
           <div class="input-group">
@@ -87,12 +90,19 @@ $produto = mysqli_fetch_array($resultado);
             <select id="categoria" name="categoria" required>
 
               <option value="">SELECIONE</option>
-    
-                <option value="" >
-                  
+
+              <?php
+              while ($categoria = mysqli_fetch_array($resultado)) {
+              ?>
+                <option value="<?= $categoria["categoria_id"] ?>">
+                <!-- <?php echo $categoria["id"] == $produto["categoria_id"] ? "selected" : "" ?> -->
+
+                  <?= $categoria["descricao"] ?>
                 </option>
-         
-           </select>
+              <?php
+              }
+              ?>
+            </select>
 
           </div>
 
@@ -100,7 +110,7 @@ $produto = mysqli_fetch_array($resultado);
             <label for="categoria">Foto</label>
             <input type="file" name="foto" id="foto" accept="image/*" />
           </div>
-         
+
           <button onclick="javascript:window.location.href = '../'">Cancelar</button>
           <button>Salvar</button>
 
@@ -115,7 +125,7 @@ $produto = mysqli_fetch_array($resultado);
   <footer>
     SENAI 2021 - Todos os direitos reservados
   </footer>
-  
+
 </body>
 
 </html>
