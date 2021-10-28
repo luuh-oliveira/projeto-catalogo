@@ -38,7 +38,7 @@ $resultado = mysqli_query($conexao, $sql);
             <!-- BOTÕES DE INSERÇÃO DE PRODUTOS E CATEGORIAS -->
             <!-- CASO O USUÁRIO ESTEJA LOGADO EXIBE OS BOTÕES DE CADASTRO -->
 
-            <header>
+            <header style="display: none;">
                 <button onclick="javascript:window.location.href ='./novo/'">Novo Produto</button>
                 <button onclick="javascript:window.location.href ='../categorias/'">Adicionar Categoria</button>
             </header>
@@ -71,7 +71,7 @@ $resultado = mysqli_query($conexao, $sql);
 
                     <article class="card-produto">
 
-                        <div class="acoes-produtos">
+                        <div class="acoes-produtos" style="display: none;">
                             <img onclick="javascript: window.location = './editar/?id=<?= $produto['id'] ?>'" src="../imgs/edit.svg" />
                             <img onclick="deletar(<?= $produto['id'] ?>)" src="../imgs/trash.svg" />
                         </div>

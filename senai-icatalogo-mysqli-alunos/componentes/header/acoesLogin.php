@@ -14,7 +14,7 @@ function realizarLogin($usuario, $senha, $conexao){
     if (isset($dadosUsuario["usuario"]) && isset($dadosUsuario["senha"])) {
         
         $_SESSION["id"] = session_id();
-
+        
         header("../index.php");
 
     } else {
