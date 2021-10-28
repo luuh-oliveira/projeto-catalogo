@@ -2,7 +2,7 @@
 
 require("../database/conexao.php");
 
-$sql = "SELECT p.*, c.descricao FROM tbl_produto p 
+$sql = "SELECT p.*, c.descricao AS nome_categoria FROM tbl_produto p 
         INNER JOIN tbl_categoria c ON p.categoria_id = c.id";
 
 $resultado = mysqli_query($conexao, $sql);
@@ -106,7 +106,7 @@ $resultado = mysqli_query($conexao, $sql);
 
                             <span class="categoria">
                                 <em>
-                                    <?= $produto["descricao"] ?>
+                                    <?= $produto["nome_categoria"] ?>
                                 </em>
                             </span>
 
