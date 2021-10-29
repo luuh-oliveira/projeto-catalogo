@@ -11,17 +11,21 @@ function realizarLogin($usuario, $senha, $conexao){
 
     $dadosUsuario = mysqli_fetch_array($resultado);
 
-    if (isset($dadosUsuario["usuario"]) && isset($dadosUsuario["senha"])) {
+    if (isset($dadosUsuario["usuario"]) && isset($dadosUsuario["senha"]) && password_verify($senha, $dadosUsuario["senha"])) {
         
-        $_SESSION["id"] = session_id();
+        $_SESSION["usuarioId"] = $dadosUsuario["id"];
+        $_SESSION["nome"] = $dadosUsuario[ "nome"];
         
-        header("../index.php");
+        // echo ($_SESSION["usuarioId"]);
+        // echo ($_SESSION["nome"]);
+        // exit;
+
+        header("location: ../../produtos/index.php");
 
     } else {
-        session_unset();
-        session_destroy();
 
-        header("../index.php");
+        session_destroy();
+        header("location: ../../index.php");
     }
 
 }
@@ -41,6 +45,11 @@ switch ($_POST["acao"]) {
         break;
     
     case 'logout':
+
+        session_destroy();
+        header("location: ../../index.php");
+
+        break;
 
     default:
         # code...

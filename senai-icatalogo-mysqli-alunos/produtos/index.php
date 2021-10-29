@@ -37,11 +37,16 @@ $resultado = mysqli_query($conexao, $sql);
 
             <!-- BOTÕES DE INSERÇÃO DE PRODUTOS E CATEGORIAS -->
             <!-- CASO O USUÁRIO ESTEJA LOGADO EXIBE OS BOTÕES DE CADASTRO -->
+            <?php
+            if (isset($_SESSION["usuarioId"])) {
+                # code...
 
-            <header style="display: none;">
-                <button onclick="javascript:window.location.href ='./novo/'">Novo Produto</button>
-                <button onclick="javascript:window.location.href ='../categorias/'">Adicionar Categoria</button>
-            </header>
+            ?>
+                <header>
+                    <button onclick="javascript:window.location.href ='./novo/'">Novo Produto</button>
+                    <button onclick="javascript:window.location.href ='../categorias/'">Adicionar Categoria</button>
+                </header>
+            <?php } ?>
 
             <main>
 
@@ -71,10 +76,17 @@ $resultado = mysqli_query($conexao, $sql);
 
                     <article class="card-produto">
 
-                        <div class="acoes-produtos" style="display: none;">
-                            <img onclick="javascript: window.location = './editar/?id=<?= $produto['id'] ?>'" src="../imgs/edit.svg" />
-                            <img onclick="deletar(<?= $produto['id'] ?>)" src="../imgs/trash.svg" />
-                        </div>
+                        <?php
+                        if (isset($_SESSION["usuarioId"])) {
+                            # code...
+                        ?>
+                            <div class="acoes-produtos" >
+                                <img onclick="javascript: window.location = './editar/?id=<?= $produto['id'] ?>'" src="../imgs/edit.svg" />
+                                <img onclick="deletar(<?= $produto['id'] ?>)" src="../imgs/trash.svg" />
+                            </div>
+                        <?php
+                        }
+                        ?>
 
                         <figure>
                             <img src="fotos/<?= $produto["imagem"] ?>" />
@@ -85,12 +97,12 @@ $resultado = mysqli_query($conexao, $sql);
                             <span class="preco">
                                 R$ <?= number_format($valorComDesconto, 2, ",", ".")  ?>
                                 <?php
-                                    if ($desconto > 0) {
-            
+                                if ($desconto > 0) {
+
                                 ?>
-                                        <em><?= $desconto ?>% off</em>
+                                    <em><?= $desconto ?>% off</em>
                                 <?php
-                                    }
+                                }
                                 ?>
                             </span>
 
@@ -110,7 +122,7 @@ $resultado = mysqli_query($conexao, $sql);
                                 </em>
                             </span>
 
-                    </article> 
+                    </article>
                 <?php
                 }
                 ?>

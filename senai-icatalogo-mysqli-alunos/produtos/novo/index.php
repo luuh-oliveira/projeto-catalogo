@@ -1,7 +1,6 @@
 <?php
 
 //
-session_start();
 
 /*
   CONEXÃO COM O BANCO DE DADOS
